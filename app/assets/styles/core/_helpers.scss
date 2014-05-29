@@ -1,0 +1,389 @@
+/* ==========================================================================
+ * Helpers for converting units (rems, percent, etc.)
+ * ========================================================================== */
+
+// Eric Meyer's awesome strip unit helper
+// http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass/12335841#12335841
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
+
+// convert to rem
+// @param $base (optional): base font size
+// based on http://www.stubbornella.org/content/2013/07/01/easy-peasy-rem-conversion-with-sass/
+// https://gist.github.com/bitmanic/1134548
+@function rem($px-size, $base: $type-size--default) {
+  @return #{strip-units($px-size/$base)}rem;
+}
+
+@function percent($px-size, $base: $type-size--default) {
+  @return (strip-units($px-size/$base))*100%;
+}
+
+@function em-to-px($em-size, $base: $type-size--default) {
+  @return (strip-units($em-size) * $base);
+}
+
+// based on https://github.com/bitmanic/rem
+// @param $px-values: number or list of numbers (0 3px 3px 0)
+// -> NONZERO VALUES MUST HAVE UNITS
+@mixin rem($property, $px-values, $base: $type-size--default) {
+  // Print the first line in pixel values
+  #{$property}: $px-values;
+  // If there is only one (numeric) value, return the property/value line for it.
+  @if type-of($px-values) == "number" {
+    #{$property}: rem($px-values, $base);
+  } @else {
+    // Create an empty list that we can dump values into
+    $rem-values: ();
+    @each $value in $px-values {
+      // If the value is zero or not a number, return it
+      @if $value == 0 or type-of( $value ) != "number" {
+        $rem-values: append($rem-values, $value); 
+      } @else {
+        $rem-values: append($rem-values, rem($value, $base)); 
+      }
+    }
+    // Return the property and its list of converted values
+    #{$property}: $rem-values; 
+  } 
+}
+
+// ==================================================================================
+// Fun with SASS lists
+// -> check it: http://hugogiraudel.com/2013/08/08/advanced-sass-list-functions/
+// ==================================================================================
+
+// get last and first values of a list
+@function last($list) {
+  @return nth($list, length($list));
+}
+
+@function first($list) {
+  @return nth($list, 1);
+}
+
+// return the nth value of an array
+// unless the value is bigger than the array's length
+// then return the last value
+@function nth-last($array, $i) {
+  @if ($i < length($array)) {
+    @return nth($array, $i);
+  } @else {
+    @return nth($array, length($array));
+  }
+}
+
+// ==================================================================================
+// CSS Shapes
+// -> http://www.paulund.co.uk/how-to-create-different-shapes-in-css
+// ==================================================================================
+
+@mixin circle($size, $color: false) {
+  height: $size;
+  width: $size;
+  border-radius: $size;
+  -moz-border-radius: $size;
+  -webkit-border-radius: $size;
+  @if $color {
+    background: $color;
+  }
+}
+
+@mixin half-circle($size, $dir: down, $color: false) {
+
+  @if $dir == 'bottom' {
+    height: ($size/2);
+    width: $size;
+    border-radius: 0 0 $size $size;
+  } @else if $dir == 'top' {
+    height: ($size/2);
+    width: $size;
+    border-radius: $size $size 0 0;
+  } @else if $dir == 'right' {
+    height: $size;
+    width: ($size/2);
+    border-radius: 0 $size $size 0;
+  } @else if $dir == 'left' {
+    height: $size;
+    width: ($size/2);
+    border-radius: $size 0 0 $size;
+  } 
+  
+  @if $color {
+    background: $color;
+  }
+}
+
+// the parent element must have positioning set for this to work
+@mixin triangle--centered($dir: down, $side: top, $loc: 0, $width: 10px, $color: white, $selector: after) {
+  &:#{$selector} {
+    @include triangle($width, $color, $dir);
+    content: " ";
+    position: absolute;
+    #{$side}: $loc;
+    z-index: $z--high;
+
+    @if ($side == top){
+      left: 50%;
+      margin-left: -($width/2);
+    } @else if ($side == bottom) {
+      left: 50%;
+      margin-left: -($width/2);
+    } @else if ($side == left) {
+      top: 50%;
+      margin-top: -($width/2);
+    } @else if ($side == right) {
+      top: 50%;
+      margin-top: -($width/2);
+    }
+  }
+}
+
+/* ==================================================================================
+// Special effects & graphical stuff
+// ================================================================================== */
+
+// style the color of a form placeholder
+@mixin form-placeholder-color($color: $color-text--secondary) {
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+
+  &:-moz-placeholder { /* Firefox 18- */
+    color: $color;  
+  }
+
+  &::-moz-placeholder {  /* Firefox 19+ */
+    color: $color;  
+  }
+
+  &:-ms-input-placeholder {  
+    color: $color;  
+  }
+}
+
+// use an invisible text-shadow to slim down light text over a dark background
+// in OSX/webkit
+// -> http://24ways.org/2006/knockout-type/
+@mixin reverse-text-fix {
+  text-shadow: 0 0 0 #000;
+}
+
+@mixin cursor($type) {
+  @if ($type == "pointer") {
+    cursor: pointer;
+  } @else if ($type == "text") {
+    cursor: text;
+  } @else if ($type == "not-allowed") {
+    cursor: not-allowed;
+  } @else {
+    cursor: auto;
+  }
+}
+
+// change opacity
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin text-inset($color: $dark-gray) {
+  text-shadow: 0px -1px 0px $color;
+}
+
+// image replacement
+@mixin ir($src, $w, $h) {
+  @include hide-text;
+  @include size($w $h);
+  // @include rem(width, $w);
+  // @include rem(height, $h);
+  display: block;
+  background: url(#{$base-path-img}#{$src}) center center no-repeat;
+}
+
+// use webkit/ie filters to make an image grayscale
+// http://www.cheesetoast.co.uk/add-grayscale-images-hover-css-black-white/
+// http://stackoverflow.com/questions/609273/convert-an-image-to-grayscale-in-html-css
+%img-grayscale {
+  @extend %base-transition;
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);  /* For Webkit browsers */
+  filter: gray;  /* For IE 6 - 9 */
+
+  &:hover {
+    @extend %img-grayscale-kill;
+  }
+}
+
+%img-grayscale-kill {
+  filter: grayscale(0%);
+  -webkit-filter: grayscale(0%);
+  filter: none;
+}
+
+/* ==================================================================================
+// General layout helpers
+// ================================================================================== */
+
+// align an inline block element vertically
+// using an :after pseudo element
+@mixin inline-block--centered($h) {
+  display: inline-block;
+  vertical-align: middle;
+  
+  &:after {
+    display: inline-block;
+    @include rem(height, $h);
+    content: " ";
+    vertical-align: middle;
+  }
+}
+
+/* Lists
+// ------------------------------------------------------------------------------ */
+
+@mixin unstyled-list {
+  list-style: none;
+  list-style-type: none;
+  // margin-left: 0;
+  padding-left: 0;
+  margin-left: 0;
+
+  li {
+    list-style: none;
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+@mixin inline-list($children: "li") {
+  @include unstyled-list;
+
+  #{$children} {
+    display: inline-block;
+  }
+}
+
+// make an inline (horizontal) list and vertically center child elements
+// use this on the li elements or just inside them (ie anchors)
+@mixin inline-list--centered($height: 100%) {
+  @include rem(height, $height);
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+// kill default margins/padding on lists used as a nav. can use with inline-list and inline-block
+@mixin nav-list {
+  margin: 0;
+  padding: 0;
+}
+
+// add a counter to a list (mimic an ordered list)
+@mixin counter($style: default, $append: ". ", $color: $color-text--primary, $item: li) {
+  list-style: none;
+  counter-reset: $item;
+
+  #{$item}:before {
+    content: counter(#{$item}) "#{$append}";
+    counter-increment: $item;
+    color: $color;
+  }
+}
+
+@mixin inline-dl($break: false) {
+  & > dt, & > dd {
+    display: inline;
+  }
+  & > dt {
+    margin-right: em(3);
+  }
+  & > dd {
+    margin-left: 0;
+
+    @if ($break == false) {
+      margin-right: em(12);
+    } @else {
+      &:after {
+        content: '\A';
+        white-space: pre;
+      }
+    }
+  }
+}
+
+/* Display & positioning
+// ------------------------------------------------------------------------------ */
+
+// vertically center the children of an inline block element
+@mixin inline-block--centered($height: auto) {
+  display: inline-block;
+  vertical-align: middle;
+  height: $height;
+
+  &::before, &:before {
+    content: '';
+    display: inline-block;  
+    vertical-align: middle;
+    height: 100%;
+  }
+}
+
+
+
+/* ==========================================================================
+// HTML5 BP Helper classes
+// ========================================================================== */
+
+
+// Hide from both screenreaders and browsers: h5bp.com/u
+
+@mixin hidden {
+  display: none;
+  visibility: hidden;
+}
+
+// restore the 'hidden' css
+@mixin restore-visible($display: block) {
+  display: $display;
+  visibility: visible;
+}
+
+// Hide only visually, but have it available for screenreaders: h5bp.com/v
+
+
+@mixin visuallyhidden($focusable: "false") {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+
+  @if $focusable == "true" {
+
+   // Extends the .visuallyhidden class to allow the element to be focusable
+   // when navigated to via the keyboard: h5bp.com/p
+
+    &:active, &:focus {
+      clip: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      position: static;
+      width: auto;
+    }
+  }
+}
+
+// Hide visually and from screenreaders, but maintain layout
+
+
+@mixin invisible {
+  visibility: hidden;
+}

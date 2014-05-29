@@ -1,0 +1,179 @@
+// ===============================================================================
+// Frameworks
+// ===============================================================================
+
+// ------ bower components -------------------------------------------------------
+// sass load path is set in the gulpfile, under 'styles' task
+@import "bourbon/dist/bourbon";
+@import "breakpoint-sass/stylesheets/breakpoint";
+@import "singularity/stylesheets/singularitygs";
+@import "sass-toolkit/stylesheets/toolkit";
+
+/* ===============================================================================
+// Settings & resets
+// =============================================================================== */
+
+@import "core/settings";
+@import "core/fonts";
+
+/* ===============================================================================
+// Core style imports
+// =============================================================================== */
+
+@import "core/helpers";
+@import "core/base";
+@import "core/print";
+@import "core/syntax";
+@import "core/layout";
+@import "core/content";
+@import "core/themes";
+
+/* ===============================================================================
+// Modules & components
+// =============================================================================== */
+
+// components
+@import "modules/button";
+
+// modules
+// @import "modules/header";
+// @import "modules/navigation";
+@import "modules/footer";
+@import "modules/button";
+// @import "modules/post";
+
+/* ===============================================================================
+// Inbox, a.k.a. Styles of Shame
+// -> put your quick and dirty hacks here, then clean up & organize later
+// =============================================================================== */
+
+$base-img-ext: (
+  1.5x: "@1.5x",
+  2x: "@2x"
+);
+
+// use a png background image where inline svg is not supported
+// pass in only the file name, not the extension
+@mixin svg-fallback($png, $res-1_5x: false, $res-2x: false, $pos: "center") {
+
+  .no-inlinesvg &, .no-svg & {
+    background-image: url("#{$path-images}/#{$png}.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: #{$pos};
+
+    & > * {
+      display: none;
+    }
+  }
+
+  @if ($res-1-5x == true) {
+    @include breakpoint(min-resolution 1.5dppx) {
+      background-image: url("#{$path-images}/#{$png}#{map-get($base-img-ext, 1.5x)}.png");
+    }
+  }
+  @if ($res-2x == true) {
+    @include breakpoint(min-resolution 2dppx) {
+      background-image: url("#{$path-images}/#{$png}#{map-get($base-img-ext, 2x)}.png");
+    }
+  } 
+}
+
+/* hide the svg sprites */
+#icon_sprites {
+  @include hidden;
+}
+
+$logo-jpw-w: 400px;
+
+/* JPW logo & lockup */
+.brand-lockup {
+  @extend %center-v;
+  @extend %layout-padding;
+  // @extend %center-v;
+  // @include rem(margin-top, 160px);
+  @include rem(max-width, ($logo-jpw-w + ($layout-margin * 2)));
+  @include rem(margin, 0 auto 24px auto);
+  position: relative;
+  top: 30%;
+  // margin: 0 auto;
+  text-align: center;
+
+  & > .icon-hi {
+    $size: 40px;
+    @include rem(width, $size);
+    @include rem(height, $size);
+    @include rem(margin-bottom, 16px);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: none;
+    // text-align: center;
+  }
+
+  & > .brand-tagline {
+    @include rem(padding, 14px 0);
+    // @extend %banda;
+    margin-top: 0.5em;
+    letter-spacing: -0.01em;
+    text-transform: lowercase;
+    border-top: $border-w solid white;
+  }
+
+  .logo-jpw {
+    @include svg-fallback("logo-jpw", $res-1-5x: true, $res-2x: true);
+    @include rem(padding, 8px 0 6px 0);
+    display: inline-block;
+
+    &-jay_perry {
+      fill: #fff;
+    }
+    &-works {
+      fill: $black;
+    }
+  }
+
+  @include breakpoint(min-height 600px) {
+    top: 35%;
+  }
+
+  @include breakpoint(min-height 800px) {
+    top: 40%;
+  }
+}
+
+.brand-blurb {
+  @extend %layout-padding;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 15%;
+  text-align: center;
+
+  & > h6 {
+    @include rem(font-size, 12px);
+    @include rem(margin-bottom, 12px);
+  }
+
+  & > p {
+    @include rem(margin-top, 30px);
+    text-align: center;
+  }
+}
+
+.icon-hi {
+  @include svg-fallback("icon-hi", $res-1-5x: true, $res-2x: true);
+
+  &-lettering {
+    fill:  $black;
+  }
+  &-box {
+    fill:  white;
+  }
+  &-box-shadow {
+    fill:  lighten($black, 5);
+  }
+  &-pointer-shadow {
+    fill:  $black;
+  }
+}

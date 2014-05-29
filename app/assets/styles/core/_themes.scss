@@ -1,0 +1,20 @@
+/* ==============================================================================
+//  Color Themes
+// ============================================================================== */
+
+%theme-default, .theme-default, body {
+  #{headers()} {
+    color: $color-text--primary;
+  }
+  p, table, li, dt, dd {
+    color: $color-text--secondary;
+  }
+
+  input, textarea {
+    background: lighten($beige, 5);
+  }
+}
+
+body {
+  background: $color--highlight;
+}

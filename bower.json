@@ -1,0 +1,15 @@
+{
+  "name": "prototype",
+  "private": true,
+  "dependencies": {
+    "normalize-css": "~3.0.1",
+    "modernizr": "~2.7",
+    "jquery": "~1.11.0",
+    "enquire": "~2.1.1",
+    "singularity": "~1.2.1",
+    "sass-toolkit": "~2.3.0",
+    "bourbon": "~4.0.1",
+    "ragadjust": "*"
+  },
+  "devDependencies": {}
+}

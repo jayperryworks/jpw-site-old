@@ -1,0 +1,100 @@
+/* Buttons
+// ---------------------------------------------------------------------------- */
+%button-shadow {
+  box-shadow: 0px 1px 0px 0px $black;
+}
+
+
+/* BASE
+// ----------------------------------------------------------------------------- */
+
+%button, .button {
+  @extend %helserif;
+  @extend %base-radius;
+  display: inline-block;
+  // border-radius: $base-radius;
+  // text-transform: uppercase;
+}
+
+/* MODIFIERS
+// ----------------------------------------------------------------------------- */
+.button.primary {
+  @extend %button-shadow;
+  @include rem(padding, 12px 30px);
+  @include rem(font-size, 24px);
+  color: $black;
+  background: $color--highlight;
+
+  &:hover, &:active {
+    background: darken($color--highlight, 5);
+  }
+
+  &.reverse {
+    color: $black;
+    background: white;
+
+    &:hover, &:active {
+      background: lighten($gray, 30);
+    }
+  }
+}
+
+.button.secondary {
+  @include rem(padding, 8px 24px);
+  @include rem(font-size, 18px);
+  color: $black;
+  background: transparent;
+  border: $border-w solid $gray;
+
+  &:hover, &:active {
+    background: darken($color--highlight, 5);
+  }
+
+  &.reverse {
+    color: $black;
+    border-color: white;
+    border-color: rgba(white, 0.40);
+
+    &:hover, &:active {
+      background: white;
+      background: rgba(white ,0.25);
+      border-color: white;
+    }
+  }
+}
+
+/* SUBMODULES
+// ----------------------------------------------------------------------------- */
+
+.button-bar {
+  @include inline-list;
+  font-size: 0;
+  // border-radius: 3px;
+
+  .button {
+    display: block;
+    // margin-right: 1px;
+    border-radius: 0;
+  }
+
+  &.primary {
+    & > li {
+      @extend %button-shadow;
+    }
+  }
+
+  & > li {
+    overflow: hidden;
+    margin-right: 1px;
+
+    &:first-child {
+      border-top-left-radius: $base-radius;
+      border-bottom-left-radius: $base-radius;
+    }
+    &:last-child {
+      margin-right: 0;
+      border-top-right-radius: $base-radius;
+      border-bottom-right-radius: $base-radius;
+    }
+  }
+}

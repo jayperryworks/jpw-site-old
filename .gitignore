@@ -1,0 +1,6 @@
+node_modules
+.tmp
+.sass-cache
+app/_bower_components
+test/_bower_components
+_scratch

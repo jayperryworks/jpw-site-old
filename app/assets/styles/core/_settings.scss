@@ -1,0 +1,86 @@
+// ==========================================================================
+//  Global settings
+// ==========================================================================
+
+$path-images: "../images";
+$path-fonts: "../fonts";
+// $path-icons: "#{$path-images}/_icons";
+
+$base-duration: 0.5s; // in seconds
+$base-radius: em(5);
+
+%base-radius {
+  border-radius: $base-radius;
+}
+
+%base-transition {
+  // base transition used globally
+  @include transition (all $base-duration);
+}
+
+// Colors
+// --------------------------------------------------------------------------
+$color--highlight: #f4b64e;
+$blue: #60AEE6; //#3077ab;
+$red: #d82333;
+$green: #00a556;
+
+// neutrals
+$black: #252525;
+$gray: #a6a39e;
+$beige: #edeae5;
+
+// text
+$color-text--primary: $black;
+$color-text--secondary: lighten($black, 5);
+
+$color--highlight: $blue;
+
+$color-selection: $red;
+
+$color-border: lighten($gray, 20);
+
+// Typography
+// --------------------------------------------------------------------------
+
+$type-size--default: 16px;
+$type-line_height: 1.5;
+
+$base-type-sizes: 14px 16px 18px 20px;
+
+
+// Containers/layout
+// --------------------------------------------------------------------------
+$layout-w-narrow: 600px;
+$layout-w: 1240px;
+
+$layout-margin: 48px;
+
+$border-w: 1px;
+
+// --- breakpoints ----------------------------------------------------------
+$breakpoints: 480px 768px 1024px 1240px 1440px;
+
+$xsmall: nth($breakpoints, 1);
+$small: nth($breakpoints, 2);
+$medium: nth($breakpoints, 3);
+$large: nth($breakpoints, 4);
+
+$breakpoint-to-ems: true;
+
+
+// --- grid variables -------------------------------------------------------
+$grid-gutter: 24px; // convert to rem/em/percent
+
+// Singularity.gs setup
+// -> https://github.com/Team-Sass/Singularity
+// $grids: add-grid(6);
+// $grids: add-grid(9 at $small);
+// $grids: add-grid(12 at $medium);
+// $gutters: add-gutter($grid-gutter);
+
+
+// --- default z-indexes ----------------------------------------------------
+$z--low: 0;
+$z--med: 1;
+$z--high: 2;

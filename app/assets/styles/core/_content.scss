@@ -1,0 +1,133 @@
+/* ==============================================================================
+// 	Global type
+// ============================================================================== */
+
+/* Headers
+// ------------------------------------------------------------------------------ */
+
+$type-scale: 12 16 18 24 27 40 60;
+
+@function headers() {
+	@return "h1, h2, h3, h4, h5, h6";
+}
+
+@function ms($scale) {
+	@return #{nth($type-scale, $scale)}px;
+}
+
+hgroup {
+	
+}
+
+#{headers()} {
+	margin: 0.5em 0 0.5em 0;
+
+	a {
+		color: inherit;
+
+		&:hover, &:active {
+			color: inherit;
+			border-bottom: none;
+		}
+	}
+}
+
+h1, %h1 {
+	@extend %helserif-bold;
+	@include rem(font-size, 54);
+	letter-spacing: -0.03em;
+}
+
+h2, %h2 {
+	@extend %helserif-bold;
+	@include rem(font-size, 40);
+}
+
+h3, %h3 {
+	@extend %helserif;
+	@include rem(font-size, 27);
+}
+
+h4, %h4 {
+	@extend %helserif;
+	@include rem(font-size, 24);
+}
+
+h5, %h5 {
+	@extend %helserif;
+	@include rem(font-size, 18);
+}
+
+h6, %h6 {
+	@extend %museo-bold;
+	@include rem(font-size, 16);
+	// letter-spacing: -0.01em;
+}
+
+%caps, .caps {
+	text-transform: uppercase;
+}
+
+/* Body type
+// ------------------------------------------------------------------------------ */
+
+// bigger first paragraph
+.intro {
+	@include rem(font-size, 21px);
+}
+
+p, table, li, dt, dd {
+	@extend %museo;
+	@include rem(font-size, 16px);
+	letter-spacing: -0.01em;
+
+	strong {
+		@extend %museo-bold;
+	}
+}
+
+p {
+	margin: 0.5em 0 0 0;
+}
+
+label, input, textarea {
+	@extend %museo;
+	@include rem(font-size, 16px);
+}
+
+label {
+	@include rem(font-size, 16px);
+}
+
+ol, ul {
+	margin-left: 1.5em; // bump to the right a little @ mobile sizes so the numbers/bullets don't run off
+
+	@include breakpoint($small) {
+		margin-left: 0;
+	}
+}
+
+a, button, [type="submit"] {
+	@extend %base-transition;
+	text-decoration: none;
+}
+
+small {
+	@extend %museo;
+	@include rem(font-size, 12px);
+}
+
+/* --- Ampersands ----------------------------------------------------------------- */
+.amp {
+	@extend %playfair;
+	font-size: 1.1em; // relative to whatever type surrounds it -- it renders slightly bigger
+}
+
+em .amp {
+	@extend %playfair-italic;
+}
+
+// fallback when @font-face is not supported
+.no-fontface .amp {
+	@extend %amp-default;
+}
