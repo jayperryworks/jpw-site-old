@@ -82,7 +82,7 @@ gulp.task('extras', function () {
 });
 
 gulp.task('clean', function () {
-    return gulp.src(['.tmp', 'dist/**/*', '!dist/{.git,.gitignore}'], { read: false }).pipe($.clean());
+    return gulp.src(['.tmp', 'dist/**/*', '!dist/{.git,.gitignore,CNAME}'], { read: false }).pipe($.clean());
 });
 
 gulp.task('build', ['html', 'images', 'fonts', 'extras']);
