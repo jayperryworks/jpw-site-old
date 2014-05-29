@@ -69,10 +69,10 @@ gulp.task('images', function () {
 });
 
 gulp.task('fonts', function () {
-    return $.bowerFiles()
-        .pipe($.filter('/**/*.{eot,svg,ttf,woff}'))
-        .pipe($.flatten())
-        .pipe(gulp.dest('dist/' + path.fonts ))
+    return gulp.src('app/assets/fonts/**/*')
+        // .pipe($.filter('*.{eot,svg,ttf,woff}'))
+        // .pipe($.flatten())
+        .pipe(gulp.dest('dist/' + path.fonts))
         .pipe($.size());
 });
 
@@ -82,7 +82,7 @@ gulp.task('extras', function () {
 });
 
 gulp.task('clean', function () {
-    return gulp.src(['.tmp', 'dist'], { read: false }).pipe($.clean());
+    return gulp.src(['.tmp', 'dist/**/*', '!dist/{.git,.gitignore}'], { read: false }).pipe($.clean());
 });
 
 gulp.task('build', ['html', 'images', 'fonts', 'extras']);
