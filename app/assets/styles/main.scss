@@ -65,18 +65,18 @@ $base-img-ext: (
     & > * {
       display: none;
     }
-  }
 
-  @if ($res-1-5x == true) {
-    @include breakpoint(min-resolution 1.5dppx) {
-      background-image: url("#{$path-images}/#{$png}#{map-get($base-img-ext, 1.5x)}.png");
+    @if ($res-1-5x == true) {
+      @include breakpoint(min-resolution 1.5dppx) {
+        background-image: url("#{$path-images}/#{$png}#{map-get($base-img-ext, 1.5x)}.png");
+      }
+    }
+    @if ($res-2x == true) {
+      @include breakpoint(min-resolution 2dppx) {
+        background-image: url("#{$path-images}/#{$png}#{map-get($base-img-ext, 2x)}.png");
+      }
     }
   }
-  @if ($res-2x == true) {
-    @include breakpoint(min-resolution 2dppx) {
-      background-image: url("#{$path-images}/#{$png}#{map-get($base-img-ext, 2x)}.png");
-    }
-  } 
 }
 
 /* hide the svg sprites */

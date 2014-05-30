@@ -56,4 +56,5 @@ a[href*="mailto"].button {
   @include rem(top, 24px);
   @include rem(right, 24px);
   position: absolute;
+  display: block;
 }
