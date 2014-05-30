@@ -84,7 +84,7 @@ $base-img-ext: (
   @include hidden;
 }
 
-$logo-jpw-w: 400px;
+$logo-jpw-w: 350px;
 
 /* JPW logo & lockup */
 .brand-lockup {
@@ -120,19 +120,6 @@ $logo-jpw-w: 400px;
     border-top: $border-w solid white;
   }
 
-  .logo-jpw {
-    @include svg-fallback("logo-jpw", $res-1-5x: true, $res-2x: true);
-    @include rem(padding, 8px 0 6px 0);
-    display: inline-block;
-
-    &-jay_perry {
-      fill: #fff;
-    }
-    &-works {
-      fill: $black;
-    }
-  }
-
   @include breakpoint(min-height 600px) {
     top: 35%;
   }
@@ -158,6 +145,21 @@ $logo-jpw-w: 400px;
   & > p {
     @include rem(margin-top, 30px);
     text-align: center;
+  }
+}
+
+.logo-jpw {
+  @include svg-fallback("logo-jpw", $res-1-5x: true, $res-2x: true);
+  @include rem(margin, 8px 0 24px 0);
+  display: block;
+  max-width: 100%;
+  max-height: 14.4%; /* keep it scaling proportionately -- annoying issue */
+
+  &-jay_perry {
+    fill: #fff;
+  }
+  &-works {
+    fill: $black;
   }
 }
 
