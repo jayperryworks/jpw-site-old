@@ -1,0 +1,33 @@
+# jekyll settings
+title: Jay Perry Works
+description: 
+tagline: Design & Illustration in Baltimore & Washington DC
+url: localhost:9000
+baseurl: 
+
+# set up dir structure used in gulp
+source: app
+destination: dist
+
+relative_permalinks: true
+permalink: none
+
+markdown: redcarpet
+highlighter: true
+
+googleAnalytics: UA-51213824-1
+
+# include bower modules for local server
+include: ["_bower_components"]
+# exclude stuff gulp will deal with
+exclude: ["README.md", ".sublime-project", ".sublime-workspace", ".sass-cache", "assets"]
+# leave these files alone in the output folder (gulp will handle)
+keep_files: [".git", ".gitignore", "CNAME", "README.md", "LICENSE", "assets"]
+
+# asset paths
+assets:
+  images: "/assets/images/"
+  styles: "/assets/styles/"
+  scripts: "/assets/scripts/"
+  fonts: "/assets/fonts/"
+  s3: "http://jayperryworks.s3.amazonaws.com" # http://media.jayperryworks.com
